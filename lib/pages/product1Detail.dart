@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:eyecentertestapp/classes/alert.dart';
 import 'package:eyecentertestapp/classes/warning.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import './product1Final.dart';
 
 class Product1Detail extends StatelessWidget {
   final int co = 0xffE1005A;
+  Alert showAlert = Alert();
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +44,11 @@ class Product1Detail extends StatelessWidget {
                       .length,
                   itemBuilder: (context, index) {
                     return Container(
+                      margin: EdgeInsets.only(
+                          bottom: index ==
+                              Provider.of<Data>(context, listen: false).product1Detail["Products"].length - 1
+                              ? 120.0
+                              : 0.0),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                             begin: Alignment.bottomCenter,
@@ -115,48 +122,60 @@ class Product1Detail extends StatelessWidget {
                                             ]),
                                       ),
                                       Container(
-                                        child: Row(children: [
-                                          Container(
-                                            color: Color(
-                                              int.parse(
-                                                  "0xff${detail[index]["T02BgColor"]}"),
-                                            ),
-                                            child: Text(
-                                              detail[index]["T02Text"],
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Color(
-                                                  int.parse(
-                                                      "0xff${detail[index]["T02Color"]}"),
+                                        child: provide.verify1
+                                            ? Row(children: [
+                                                Container(
+                                                  color: Color(
+                                                    int.parse(
+                                                        "0xff${detail[index]["T02BgColor"]}"),
+                                                  ),
+                                                  child: Text(
+                                                    detail[index]["T02Text"],
+                                                    style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      color: Color(
+                                                        int.parse(
+                                                            "0xff${detail[index]["T02Color"]}"),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            color: Color(
-                                              int.parse(
-                                                  "0xff${detail[index]["T03BgColor"]}"),
-                                            ),
-                                            child: Text(
-                                              detail[index]["T03Text"],
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                color: Color(
-                                                  int.parse(
-                                                      "0xff${detail[index]["T03Color"]}"),
+                                                Container(
+                                                  color: Color(
+                                                    int.parse(
+                                                        "0xff${detail[index]["T03BgColor"]}"),
+                                                  ),
+                                                  child: Text(
+                                                    detail[index]["T03Text"],
+                                                    style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      color: Color(
+                                                        int.parse(
+                                                            "0xff${detail[index]["T03Color"]}"),
+                                                      ),
+                                                    ),
+                                                  ),
                                                 ),
+                                              ])
+                                            : Text(
+                                                detail[index]["HintText"],
+                                                style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    color: Color(
+                                                      int.parse(
+                                                          "0xff${detail[index]["HintColor"]}"),
+                                                    )),
                                               ),
-                                            ),
-                                          ),
-                                        ]),
                                       ),
                                       Container(
-                                        child: Text(
-                                          detail[index]["Description"],
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                          ),
-                                        ),
+                                        child: provide.verify1
+                                            ? Text(
+                                                detail[index]["Description"],
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                ),
+                                              )
+                                            : Text("活動說明"),
                                       ),
                                     ]),
                               ),
@@ -168,12 +187,16 @@ class Product1Detail extends StatelessWidget {
                             ]),
                         isThreeLine: true,
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            CupertinoPageRoute(
-                              builder: (context) => Product1Final(index),
-                            ),
-                          );
+                          if (provide.verify1) {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => Product1Final(index),
+                              ),
+                            );
+                          } else {
+                            showAlert.alert1("請先登錄會員", context);
+                          }
                         },
                       ),
                     );

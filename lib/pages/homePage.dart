@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:eyecentertestapp/classes/menuItem.dart';
 import 'package:eyecentertestapp/classes/menuItem2.dart';
 import 'package:eyecentertestapp/pages/policy.dart';
@@ -23,6 +25,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../data.dart';
 import 'package:device_info/device_info.dart';
 import 'dart:io' show Platform;
+import 'dart:math' as math;
 
 class HomePage extends StatefulWidget {
   @override
@@ -84,7 +87,6 @@ class _HomePageState extends State<HomePage> {
     //prefs.clear();
     final provider = Provider.of<Data>(context, listen: false);
     setState(() {
-
       if (prefs.getBool(spFirstLaunch) == null) {
         setState(() {
           firstLaunch = true;
@@ -104,6 +106,17 @@ class _HomePageState extends State<HomePage> {
       } else {
         provider.setVerity(prefs.getBool(provider.spVerify1));
       }
+      if (prefs.getString(provider.spCart) == null) {
+        provider.setCart([]);
+      } else {
+        provider.setCart(json.decode(prefs.getString(provider.spCart)) );
+      }
+      if (prefs.getString(provider.spTotalPriceList) == null) {
+        provider.setTotalPriceList([]);
+      } else {
+        provider.setTotalPriceList(json.decode(prefs.getString(provider.spTotalPriceList)) );
+      }
+      
     });
     if (firstLaunch) {
       setState(() {
@@ -179,8 +192,8 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: Colors.white,
           title: Text(
             "e 大學眼鏡",
-            style:
-                TextStyle(color: Theme.of(context).primaryColor, fontSize: 22.0),
+            style: TextStyle(
+                color: Theme.of(context).primaryColor, fontSize: 22.0),
           ),
           elevation: 0.0,
         ),
@@ -234,7 +247,8 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 5.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 5.0),
                                 child: Text(
                                   "商品分類",
                                   style: TextStyle(
@@ -256,7 +270,8 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 5.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 5.0),
                                 child: Text(
                                   "服務專區",
                                   style: TextStyle(
@@ -286,7 +301,8 @@ class _HomePageState extends State<HomePage> {
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 5.0),
+                                padding:
+                                    EdgeInsets.fromLTRB(10.0, 5.0, 0.0, 5.0),
                                 child: Text(
                                   "使用協議",
                                   style: TextStyle(
@@ -331,7 +347,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        body:getContents(),
+        body: getContents(),
         bottomNavigationBar: BottomNavigationBar(
             currentIndex: Provider.of<Data>(context).index,
             onTap: (index) {
@@ -382,12 +398,41 @@ class _HomePageState extends State<HomePage> {
                     "產品介紹",
                   )),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.location_on, size: 40.0), title: Text("門市據點")),
+                  icon: Icon(Icons.location_on, size: 40.0),
+                  title: Text("門市據點")),
               BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.local_shipping,
-                    size: 40.0,
-                  ),
+                  icon: Stack(
+                    overflow: Overflow.visible,
+                      children: [
+                    Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.rotationY(math.pi),
+                      child: Icon(
+                        Icons.local_shipping,
+                        size: 40.0,
+                      ),
+                    ),
+                    provide.cart.isEmpty?Text(""):Positioned(
+                      right: -10.0,
+                      child: Container(
+                        height: 20.0,
+                        width: 20.0,
+                        padding: EdgeInsets.all(2.0),
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        child: Center(
+                          child: Text(
+                            Provider.of<Data>(context).cart.length.toString(),
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
                   title: Text("配送服務")),
             ],
             selectedItemColor:

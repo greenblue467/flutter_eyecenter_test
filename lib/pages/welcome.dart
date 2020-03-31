@@ -21,6 +21,11 @@ class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
       setState(() {});
     });
   }
+  @override
+  void dispose() {
+    control.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

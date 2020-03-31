@@ -37,6 +37,10 @@ class Data with ChangeNotifier {
   List product1 = [];
   int product1Id;
   var product1Detail = {};
+  List cart = [];
+  String spCart = "spCart";
+  List totalPriceList = [];
+  String spTotalPriceList = "spTotalPriceList";
 
   void setJustLaunch() {
     justLaunch = false;
@@ -53,8 +57,8 @@ class Data with ChangeNotifier {
     notifyListeners();
   }
 
-  void setSpin(val){
-    spin=val;
+  void setSpin(val) {
+    spin = val;
     notifyListeners();
   }
 
@@ -301,7 +305,7 @@ class Data with ChangeNotifier {
     try {
       var response = await http.get(
           "http://apiv2.eyeglasses.com.tw/Products/CL?BrandID=$product1Id");
-      spin=false;
+      spin = false;
       if (response.statusCode == 200) {
         product1Detail = jsonDecode(response.body);
         Navigator.push(
@@ -316,6 +320,56 @@ class Data with ChangeNotifier {
     } catch (e) {
       print(e);
     }
+    notifyListeners();
+  }
+
+  void addToCart(name, pic, leftQ, rightQ, price, check, context) {
+    Map item = {
+      "Name": name,
+      "Pic": pic,
+      "LeftQ": leftQ,
+      "RightQ": rightQ,
+      "Price": price,
+      "Check": check
+    };
+    cart.add(item);
+    showAlert.alert1("已成功加入配送清單。請至「配送服務」進行配送！", context);
+    notifyListeners();
+  }
+  void removeItem(item){
+    cart.remove(item);
+    notifyListeners();
+  }
+
+  void saveCart() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //prefs.clear();
+    prefs.setString(spCart, json.encode(cart));
+    notifyListeners();
+  }
+
+  void setCart(val) {
+    cart = val;
+    notifyListeners();
+  }
+
+  void addTotalPriceList(val) {
+    totalPriceList.add(val);
+    notifyListeners();
+  }
+  void removeTotalPriceList(item){
+    totalPriceList.remove(item);
+    notifyListeners();
+  }
+
+  void setTotalPriceList(val) {
+    totalPriceList = val;
+    notifyListeners();
+  }
+  void saveTotalPriceList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(
+        spTotalPriceList, json.encode(totalPriceList));
     notifyListeners();
   }
 }

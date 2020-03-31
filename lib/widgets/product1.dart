@@ -59,6 +59,8 @@ class _Product1State extends State<Product1> {
                 provide.getProduct1Detail(context);
               },
               child: Container(
+                margin: EdgeInsets.only(
+                    bottom: index == provide.product1.length - 1 ? 120.0 : 0.0),
                 child: Image(
                   image: NetworkImage(
                     Provider.of<Data>(context).product1[index]["BrandImg"],
