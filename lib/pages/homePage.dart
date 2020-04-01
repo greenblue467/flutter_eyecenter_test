@@ -25,7 +25,6 @@ import '../data.dart';
 import 'package:device_info/device_info.dart';
 import 'dart:io' show Platform;
 import 'dart:math' as math;
-import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   @override
@@ -101,6 +100,11 @@ class _HomePageState extends State<HomePage> {
         provider.setPhone("");
       } else {
         provider.setPhone(prefs.getString(provider.spPhone));
+      }
+      if (prefs.getString(provider.spCellphoneByMD5) == null) {
+        provider.setCellphoneByMD5("");
+      } else {
+        provider.setCellphoneByMD5(prefs.getString(provider.spCellphoneByMD5));
       }
       if (prefs.getBool(provider.spVerify1) == null) {
         provider.setVerity(false);
@@ -191,6 +195,7 @@ class _HomePageState extends State<HomePage> {
         appBar: AppBar(
           iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
           backgroundColor: Colors.white,
+          centerTitle: true,
           title: Text(
             "e 大學眼鏡",
             style: TextStyle(

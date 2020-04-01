@@ -32,6 +32,7 @@ class _HowToState extends State<HowTo> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+          centerTitle: true,
           iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
           elevation: 0.0,
           backgroundColor: Colors.white,

@@ -6,7 +6,7 @@ class Warning extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10.0),
       width: MediaQuery.of(context).size.width,
-      height: 120.0,
+      height: 100.0,
       color: Colors.grey[700].withOpacity(0.5),
       child: ListView(children: [
         Row(

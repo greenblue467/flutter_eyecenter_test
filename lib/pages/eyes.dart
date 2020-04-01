@@ -26,6 +26,7 @@ class Eyes extends StatelessWidget {
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0.0,
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),

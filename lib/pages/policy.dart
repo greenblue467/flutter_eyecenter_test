@@ -31,6 +31,7 @@ class _PolicyState extends State<Policy> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
+        centerTitle: true,
         title: Text(
           "e 大學眼鏡",
           style: TextStyle(fontSize: 22.0,color:Theme.of(context).primaryColor),

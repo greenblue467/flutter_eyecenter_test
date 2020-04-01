@@ -35,6 +35,7 @@ class _FaqState extends State<Faq> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
+        centerTitle: true,
         title: Text(
           "e 大學眼鏡",
           style:

@@ -16,6 +16,8 @@ class Data with ChangeNotifier {
   bool justLaunch = true;
   int index = 2;
   String deviceID;
+  String cellphoneByMD5;
+  String spCellphoneByMD5 = "spcellphoneByMD5";
   String phone;
   String spPhone = "spPhone";
   int time = 120;
@@ -41,6 +43,7 @@ class Data with ChangeNotifier {
   String spCart = "spCart";
   List totalPriceList = [];
   String spTotalPriceList = "spTotalPriceList";
+  var pointInfo;
 
   void setJustLaunch() {
     justLaunch = false;
@@ -57,10 +60,6 @@ class Data with ChangeNotifier {
     notifyListeners();
   }
 
-  void setSpin(val) {
-    spin = val;
-    notifyListeners();
-  }
 
   void logInStatus(context) async {
     try {
@@ -76,6 +75,7 @@ class Data with ChangeNotifier {
           } else {
             countDown();
             verifyNumber = jsonResponse["ReturnValue"];
+            cellphoneByMD5=jsonResponse["CellphoneByMD5"];
             Navigator.push(context, CupertinoPageRoute(builder: (context) {
               return Verify1(
                   action: Navigate().pop,
@@ -100,7 +100,10 @@ class Data with ChangeNotifier {
     }
     notifyListeners();
   }
-
+void setCellphoneByMD5(val){
+    cellphoneByMD5=val;
+    notifyListeners();
+}
   void setTime() {
     time = 120;
     notifyListeners();
@@ -166,6 +169,7 @@ class Data with ChangeNotifier {
     //prefs.clear();
     prefs.setBool(spVerify1, verify1);
     prefs.setString(spPhone, phone);
+    prefs.setString(spCellphoneByMD5, cellphoneByMD5);
     notifyListeners();
   }
 
@@ -303,7 +307,6 @@ class Data with ChangeNotifier {
 
   void getProduct1Detail(context) async {
     try {
-      spin = true;
       var response = await http.get(
           "http://apiv2.eyeglasses.com.tw/Products/CL?BrandID=$product1Id");
       spin = false;
@@ -371,6 +374,30 @@ class Data with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(
         spTotalPriceList, json.encode(totalPriceList));
+    notifyListeners();
+  }
+  void getPoint(page,context)async{
+    try{
+      var response=await http.get("http://apiv2.eyeglasses.com.tw/Member/MyBonus?cellphone=$cellphoneByMD5");
+      spin=false;
+      if(response.statusCode==200){
+        pointInfo=jsonDecode(response.body);
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => page,
+          ),
+        );
+      }else{
+        print(response.statusCode);
+      }
+    }catch(e){
+      print(e);
+    }
+    notifyListeners();
+  }
+  void setSpin(val){
+    spin=true;
     notifyListeners();
   }
 }

@@ -35,6 +35,7 @@ class _Product1FinalState extends State<Product1Final> {
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
         backgroundColor: Colors.white,
+        centerTitle: true,
         title: Text(
           "e 大學眼鏡",
           style:

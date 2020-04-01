@@ -1,10 +1,15 @@
+import 'package:eyecentertestapp/classes/memberContainer.dart';
 import 'package:eyecentertestapp/constValues.dart';
+import 'package:eyecentertestapp/pages/about.dart';
+import 'package:eyecentertestapp/pages/myPoint.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+import '../data.dart';
 import '../pages/pointPage.dart';
 
 class Member extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +27,7 @@ class Member extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-            margin: EdgeInsets.only(top: 40.0),
+            margin: EdgeInsets.only(top: 20.0),
             child: Column(
               children: <Widget>[
                 Container(
@@ -30,39 +35,15 @@ class Member extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(right: 30.0),
-                        child: Column(children: [
-                          Icon(
-                            Icons.person_outline,
-                            size: 120.0,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          Text(
-                            "個人資料",
-                            style: TextStyle(fontSize: 18.0),
-                          )
-                        ]),
-                      ),
+                      MemberContainer("個人資料", EdgeInsets.only(right: 30.0),
+                          Icons.person_outline,About()),
                       Container(
                         height: 140.0,
                         width: 1.0,
                         color: Theme.of(context).primaryColor,
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 30.0),
-                        child: Column(children: [
-                          Icon(
-                            Icons.people_outline,
-                            size: 120.0,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          Text(
-                            "推薦好友",
-                            style: TextStyle(fontSize: 18.0),
-                          )
-                        ]),
-                      ),
+                      MemberContainer("推薦好友", EdgeInsets.only(left: 30.0),
+                          Icons.people_outline,About()),
                     ],
                   ),
                 ),
@@ -91,39 +72,15 @@ class Member extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(right: 30.0),
-                        child: Column(children: [
-                          Icon(
-                            Icons.control_point_duplicate,
-                            size: 120.0,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          Text(
-                            "我的點數",
-                            style: TextStyle(fontSize: 18.0),
-                          )
-                        ]),
-                      ),
+                      MemberContainer("我的點數", EdgeInsets.only(right: 30.0),
+                          Icons.control_point_duplicate,MyPoint()),
                       Container(
                         height: 140.0,
                         width: 1.0,
                         color: Theme.of(context).primaryColor,
                       ),
-                      Container(
-                        margin: EdgeInsets.only(left: 30.0),
-                        child: Column(children: [
-                          Icon(
-                            Icons.done,
-                            size: 120.0,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          Text(
-                            "我的訂單",
-                            style: TextStyle(fontSize: 18.0),
-                          )
-                        ]),
-                      ),
+                      MemberContainer("我的訂單", EdgeInsets.only(left: 30.0),
+                          Icons.done,About()),
                     ],
                   ),
                 ),
@@ -145,10 +102,7 @@ class Member extends StatelessWidget {
             },
             child: Text(
               "我在門市使用點數",
-              style: TextStyle(
-                fontSize: 20.0,
-                  color:Colors.black54
-              ),
+              style: TextStyle(fontSize: 20.0, color: Colors.black54),
             ),
           ),
         )

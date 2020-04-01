@@ -34,6 +34,7 @@ class _AboutState extends State<About> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.0,
+        centerTitle: true,
         title: Text(
           "e 大學眼鏡",
           style:
