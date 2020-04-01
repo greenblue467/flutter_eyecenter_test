@@ -34,7 +34,8 @@ class Product extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              child: TabBarView(children: <Widget>[
+              child: TabBarView(
+                children: <Widget>[
                 Product1(),
                 Product2(),
                 Product3(),

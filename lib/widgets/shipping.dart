@@ -40,6 +40,10 @@ class _ShippingState extends State<Shipping> {
                   itemCount:
                       Provider.of<Data>(context, listen: false).cart.length,
                   itemBuilder: (context, index) {
+                    int totalQ = Provider.of<Data>(context, listen: false)
+                            .cart[index]["LeftQ"] +
+                        Provider.of<Data>(context, listen: false).cart[index]
+                            ["RightQ"];
                     return Container(
                       decoration: BoxDecoration(
                         border:
@@ -89,12 +93,26 @@ class _ShippingState extends State<Shipping> {
                                               color: Colors.grey[400],
                                             ),
                                             onPressed: () {
-                                              var item=Provider.of<Data>(context,listen: false).cart[index];
-                                              Provider.of<Data>(context,listen: false).removeItem(item);
-                                              Provider.of<Data>(context,listen: false).saveCart();
-                                              String money=Provider.of<Data>(context,listen: false).totalPriceList[index];
-                                              Provider.of<Data>(context,listen: false).removeTotalPriceList(money);
-                                              Provider.of<Data>(context,listen: false).saveTotalPriceList();
+                                              var item = Provider.of<Data>(
+                                                      context,
+                                                      listen: false)
+                                                  .cart[index];
+                                              Provider.of<Data>(context,
+                                                      listen: false)
+                                                  .removeItem(item);
+                                              Provider.of<Data>(context,
+                                                      listen: false)
+                                                  .saveCart();
+                                              String money = Provider.of<Data>(
+                                                      context,
+                                                      listen: false)
+                                                  .totalPriceList[index];
+                                              Provider.of<Data>(context,
+                                                      listen: false)
+                                                  .removeTotalPriceList(money);
+                                              Provider.of<Data>(context,
+                                                      listen: false)
+                                                  .saveTotalPriceList();
                                             },
                                           ),
                                         )
@@ -131,7 +149,7 @@ class _ShippingState extends State<Shipping> {
                                       ),
                                       Container(
                                         child: Text(
-                                          "共${(Provider.of<Data>(context, listen: false).cart[index]["LeftQ"] + Provider.of<Data>(context, listen: false).cart[index]["RightQ"]).toString()}盒x${provide.cart[index]["Price"]}元=${((Provider.of<Data>(context, listen: false).cart[index]["LeftQ"] + Provider.of<Data>(context, listen: false).cart[index]["RightQ"]) * int.parse(Provider.of<Data>(context, listen: false).cart[index]["Price"])).toString()}元",
+                                          "共${totalQ.toString()}盒x${provide.cart[index]["Price"]}元=${(totalQ * int.parse(Provider.of<Data>(context, listen: false).cart[index]["Price"])).toString()}元",
                                           style: TextStyle(
                                             color: Colors.redAccent,
                                             fontSize: 16.0,
@@ -164,7 +182,12 @@ class _ShippingState extends State<Shipping> {
                                 .isEmpty
                             ? Text("0")
                             : Text(
-                                "應付金額${((Provider.of<Data>(context, listen: false).totalPriceList.map((i) => int.parse(i)).toList()).reduce((prev, next) => prev + next)).toString()}元"),
+                                "應付金額   ${((Provider.of<Data>(context, listen: false).totalPriceList.map((i) => int.parse(i)).toList()).reduce((prev, next) => prev + next)).toString()}元",
+                                style: TextStyle(
+                                  color: Colors.redAccent,
+                                  fontSize: 20.0,
+                                ),
+                              ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

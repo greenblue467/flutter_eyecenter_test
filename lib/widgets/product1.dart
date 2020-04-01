@@ -14,8 +14,12 @@ class Product1 extends StatefulWidget {
   _Product1State createState() => _Product1State();
 }
 
-class _Product1State extends State<Product1> {
-  bool _loading = true;
+class _Product1State extends State<Product1>
+    with AutomaticKeepAliveClientMixin {
+  bool _loading = false;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -25,6 +29,9 @@ class _Product1State extends State<Product1> {
 
   void getContent() async {
     try {
+      setState(() {
+        _loading = true;
+      });
       var response =
           await http.get("http://apiv2.eyeglasses.com.tw/Brand/Get?Type=cl");
       setState(() {
@@ -44,6 +51,8 @@ class _Product1State extends State<Product1> {
   @override
   Widget build(BuildContext context) {
     final provide = Provider.of<Data>(context, listen: false);
+    double wid = MediaQuery.of(context).size.width;
+    double hei = MediaQuery.of(context).size.width / 2.17;
     return ModalProgressHUD(
       inAsyncCall: _loading,
       color: Colors.white,
@@ -59,13 +68,22 @@ class _Product1State extends State<Product1> {
                 provide.getProduct1Detail(context);
               },
               child: Container(
+                width: wid,
+                height: hei,
                 margin: EdgeInsets.only(
                     bottom: index == provide.product1.length - 1 ? 120.0 : 0.0),
-                child: Image(
+                child: Image.network(
+                  provide.product1[index]["BrandImg"],
+                  loadingBuilder: (context, Widget child, ImageChunkEvent loadingProgress){
+                    if (loadingProgress == null)
+                      return child;
+                    return Center(child: Text("讀取中 ⋯",style: TextStyle(color: Colors.grey,fontSize: 20.0),));
+                  },
+                ), /*Image(
                   image: NetworkImage(
-                    Provider.of<Data>(context).product1[index]["BrandImg"],
+                    provide.product1[index]["BrandImg"],
                   ),
-                ),
+                ),*/
               ),
             );
           },

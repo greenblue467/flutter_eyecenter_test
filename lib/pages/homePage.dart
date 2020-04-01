@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:eyecentertestapp/classes/menuItem.dart';
 import 'package:eyecentertestapp/classes/menuItem2.dart';
 import 'package:eyecentertestapp/pages/policy.dart';
@@ -26,6 +25,7 @@ import '../data.dart';
 import 'package:device_info/device_info.dart';
 import 'dart:io' show Platform;
 import 'dart:math' as math;
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   @override
@@ -53,9 +53,9 @@ class _HomePageState extends State<HomePage> {
 
   getContents() {
     if (Provider.of<Data>(context, listen: false).verify1) {
-      return memberContent[Provider.of<Data>(context, listen: false).index];
+      return IndexedStack(index:Provider.of<Data>(context).index ,children: memberContent);
     } else {
-      return content[Provider.of<Data>(context, listen: false).index];
+      return IndexedStack(index:Provider.of<Data>(context).index,children: content);
     }
   }
 
@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     loadValues();
     getDeviceID();
+
   }
 
   void getDeviceID() async {

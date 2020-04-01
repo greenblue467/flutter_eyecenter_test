@@ -303,6 +303,7 @@ class Data with ChangeNotifier {
 
   void getProduct1Detail(context) async {
     try {
+      spin = true;
       var response = await http.get(
           "http://apiv2.eyeglasses.com.tw/Products/CL?BrandID=$product1Id");
       spin = false;
