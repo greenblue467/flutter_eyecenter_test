@@ -7,24 +7,33 @@ class Welcome extends StatefulWidget {
   _WelcomeState createState() => _WelcomeState();
 }
 
-class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
+class _WelcomeState extends State<Welcome> with TickerProviderStateMixin{
   final List coloList = [Colors.blue, Colors.green, Colors.redAccent];
   int _i = 0;
   AnimationController control;
 
+
+
   @override
   void initState() {
     super.initState();
-    control = AnimationController(duration: Duration(seconds: 5), vsync: this);
+    control = AnimationController(duration: Duration(seconds: 1), vsync: this);
+
+
+  }
+
+  double getVal() {
+
     control.forward();
     control.addListener(() {
       setState(() {});
     });
+
+    return control.value;
   }
-  @override
-  void dispose() {
-    control.dispose();
-    super.dispose();
+  double getVal2(){
+    control.reset();
+    return 0.0;
   }
 
   @override
@@ -79,8 +88,7 @@ class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
             ),
           ),
         ),
-        _i == 2
-            ? Positioned(
+            Positioned(
                 bottom: 100,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
@@ -88,12 +96,16 @@ class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
                     padding: EdgeInsets.symmetric(horizontal: 30.0),
                     child: FlatButton(
                       padding: EdgeInsets.symmetric(vertical: 15.0),
-                      shape: btnStyle(color: Colors.white.withOpacity(control.value)),
+                      shape: btnStyle(
+                        color:
+                            Colors.white.withOpacity(_i==2?getVal():getVal2(),),
+                      ),
                       child: Text(
                         "開始使用",
                         style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.white.withOpacity(control.value)),
+                          fontSize: 20.0,
+                          color: Colors.white.withOpacity(_i==2?getVal():getVal2(),),
+                        ),
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -102,77 +114,83 @@ class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
                   ),
                 ),
               )
-            : Text(""),
-        _i==0?Positioned(
-          top: 220,
-          child: Container(
-            margin: EdgeInsets.only(left: 80),
-            child: Column(children: [
-              RichText(
-                text: TextSpan(children: [
-                  TextSpan(
-                    text: "大學眼鏡",
-                    style: TextStyle(fontSize: 40.0),
-                  ),
-                  TextSpan(
-                    text: "APP",
-                    style:
-                        TextStyle(fontSize: 40.0, fontWeight: FontWeight.w800),
-                  ),
-                ]),
-              ),
-              Text(
-                "矚目上架",
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 60.0,
-                    color: Colors.white),
-              ),
-              Stack(
-                  textDirection: TextDirection.ltr,
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    Container(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 1.0, horizontal: 15.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(50.0),
-                          bottomRight: Radius.circular(50.0),
+            ,
+        _i == 0
+            ? Positioned(
+                top: 220,
+                child: Container(
+                  margin: EdgeInsets.only(left: 80),
+                  child: Column(children: [
+                    RichText(
+                      text: TextSpan(children: [
+                        TextSpan(
+                          text: "大學眼鏡",
+                          style: TextStyle(fontSize: 40.0),
                         ),
-                        border: Border(
-                          left: BorderSide(color: Colors.white, width: 2.0),
-                          top: BorderSide(color: Colors.white, width: 2.0),
-                          bottom: BorderSide(color: Colors.white, width: 2.0),
-                          right: BorderSide(color: Colors.white, width: 2.0),
-                        ),
-                      ),
-                      margin: EdgeInsets.only(left: 10.0),
-                      child: Text(
-                        "大優惠＋全新服務",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Container(
-                      color: Colors.blue,
-                      child: Center(
-                        child: Text(
-                          "3",
+                        TextSpan(
+                          text: "APP",
                           style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 40.0,
-                            fontWeight: FontWeight.w600,
-                          ),
+                              fontSize: 40.0, fontWeight: FontWeight.w800),
                         ),
-                      ),
+                      ]),
                     ),
-                  ])
-            ]),
-          ),
-        ):Text(""),
+                    Text(
+                      "矚目上架",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 60.0,
+                          color: Colors.white),
+                    ),
+                    Stack(
+                        textDirection: TextDirection.ltr,
+                        alignment: Alignment.centerLeft,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 1.0, horizontal: 15.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(50.0),
+                                bottomRight: Radius.circular(50.0),
+                              ),
+                              border: Border(
+                                left:
+                                    BorderSide(color: Colors.white, width: 2.0),
+                                top:
+                                    BorderSide(color: Colors.white, width: 2.0),
+                                bottom:
+                                    BorderSide(color: Colors.white, width: 2.0),
+                                right:
+                                    BorderSide(color: Colors.white, width: 2.0),
+                              ),
+                            ),
+                            margin: EdgeInsets.only(left: 10.0),
+                            child: Text(
+                              "大優惠＋全新服務",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Container(
+                            color: Colors.blue,
+                            child: Center(
+                              child: Text(
+                                "3",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 40.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ])
+                  ]),
+                ),
+              )
+            : Text(""),
       ]),
     );
   }

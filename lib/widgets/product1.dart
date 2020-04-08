@@ -69,6 +69,7 @@ class _Product1State extends State<Product1>
     final provide = Provider.of<Data>(context, listen: false);
     double wid = MediaQuery.of(context).size.width;
     double hei = MediaQuery.of(context).size.width / 2.17;
+    super.build(context);
     return ModalProgressHUD(
       inAsyncCall: _loading,
       color: Colors.white,
