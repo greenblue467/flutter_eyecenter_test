@@ -7,23 +7,18 @@ class Welcome extends StatefulWidget {
   _WelcomeState createState() => _WelcomeState();
 }
 
-class _WelcomeState extends State<Welcome> with TickerProviderStateMixin{
+class _WelcomeState extends State<Welcome> with SingleTickerProviderStateMixin {
   final List coloList = [Colors.blue, Colors.green, Colors.redAccent];
   int _i = 0;
   AnimationController control;
-
-
 
   @override
   void initState() {
     super.initState();
     control = AnimationController(duration: Duration(seconds: 1), vsync: this);
-
-
   }
 
   double getVal() {
-
     control.forward();
     control.addListener(() {
       setState(() {});
@@ -31,7 +26,8 @@ class _WelcomeState extends State<Welcome> with TickerProviderStateMixin{
 
     return control.value;
   }
-  double getVal2(){
+
+  double getVal2() {
     control.reset();
     return 0.0;
   }
@@ -88,33 +84,35 @@ class _WelcomeState extends State<Welcome> with TickerProviderStateMixin{
             ),
           ),
         ),
-            Positioned(
-                bottom: 100,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30.0),
-                    child: FlatButton(
-                      padding: EdgeInsets.symmetric(vertical: 15.0),
-                      shape: btnStyle(
-                        color:
-                            Colors.white.withOpacity(_i==2?getVal():getVal2(),),
-                      ),
-                      child: Text(
-                        "開始使用",
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.white.withOpacity(_i==2?getVal():getVal2(),),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+        Positioned(
+          bottom: 100,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 30.0),
+              child: FlatButton(
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+                shape: btnStyle(
+                  color: Colors.white.withOpacity(
+                    _i == 2 ? getVal() : getVal2(),
+                  ),
+                ),
+                child: Text(
+                  "開始使用",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Colors.white.withOpacity(
+                      _i == 2 ? getVal() : getVal2(),
                     ),
                   ),
                 ),
-              )
-            ,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ),
+        ),
         _i == 0
             ? Positioned(
                 top: 220,
