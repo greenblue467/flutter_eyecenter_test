@@ -52,9 +52,11 @@ class _HomePageState extends State<HomePage> {
 
   getContents() {
     if (Provider.of<Data>(context, listen: false).verify1) {
-      return IndexedStack(index:Provider.of<Data>(context).index ,children: memberContent);
+      return IndexedStack(
+          index: Provider.of<Data>(context).index, children: memberContent);
     } else {
-      return IndexedStack(index:Provider.of<Data>(context).index,children: content);
+      return IndexedStack(
+          index: Provider.of<Data>(context).index, children: content);
     }
   }
 
@@ -63,7 +65,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     loadValues();
     getDeviceID();
-
   }
 
   void getDeviceID() async {
@@ -114,14 +115,14 @@ class _HomePageState extends State<HomePage> {
       if (prefs.getString(provider.spCart) == null) {
         provider.setCart([]);
       } else {
-        provider.setCart(json.decode(prefs.getString(provider.spCart)) );
+        provider.setCart(json.decode(prefs.getString(provider.spCart)));
       }
       if (prefs.getString(provider.spTotalPriceList) == null) {
         provider.setTotalPriceList([]);
       } else {
-        provider.setTotalPriceList(json.decode(prefs.getString(provider.spTotalPriceList)) );
+        provider.setTotalPriceList(
+            json.decode(prefs.getString(provider.spTotalPriceList)));
       }
-      
     });
     if (firstLaunch) {
       setState(() {
@@ -407,9 +408,7 @@ class _HomePageState extends State<HomePage> {
                   icon: Icon(Icons.location_on, size: 40.0),
                   title: Text("門市據點")),
               BottomNavigationBarItem(
-                  icon: Stack(
-                    overflow: Overflow.visible,
-                      children: [
+                  icon: Stack(overflow: Overflow.visible, children: [
                     Transform(
                       alignment: Alignment.center,
                       transform: Matrix4.rotationY(math.pi),
@@ -418,26 +417,31 @@ class _HomePageState extends State<HomePage> {
                         size: 40.0,
                       ),
                     ),
-                    provide.cart.isEmpty?Text(""):Positioned(
-                      right: -10.0,
-                      child: Container(
-                        height: 20.0,
-                        width: 20.0,
-                        padding: EdgeInsets.all(2.0),
-                        decoration: BoxDecoration(
-                          color: Colors.redAccent,
-                          borderRadius: BorderRadius.circular(50.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            Provider.of<Data>(context).cart.length.toString(),
-                            style: TextStyle(
-                              color: Colors.white,
+                    provide.cart.isEmpty
+                        ? Text("")
+                        : Positioned(
+                            right: -10.0,
+                            child: Container(
+                              height: 20.0,
+                              width: 20.0,
+                              padding: EdgeInsets.all(2.0),
+                              decoration: BoxDecoration(
+                                color: Colors.redAccent,
+                                borderRadius: BorderRadius.circular(50.0),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  Provider.of<Data>(context)
+                                      .cart
+                                      .length
+                                      .toString(),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    ),
                   ]),
                   title: Text("配送服務")),
             ],
