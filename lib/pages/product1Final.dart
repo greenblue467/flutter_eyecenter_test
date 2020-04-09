@@ -62,8 +62,11 @@ class _Product1FinalState extends State<Product1Final> {
                   maxWidth: 70,
                   maxHeight: 200,
                 ),
-                child: Image.network(detail[widget.index]["ImagePath"],
-                    fit: BoxFit.cover),
+                child: Hero(
+                  tag: detail[widget.index],
+                  child: Image.network(detail[widget.index]["ImagePath"],
+                      fit: BoxFit.cover),
+                ),
               ),
               title: Text(
                 detail[widget.index]["ProductName"],

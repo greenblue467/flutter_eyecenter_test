@@ -91,8 +91,11 @@ class Product1Detail extends StatelessWidget {
                               maxWidth: 70,
                               maxHeight: 200,
                             ),
-                            child: Image.network(detail[index]["ImagePath"],
-                                fit: BoxFit.cover),
+                            child: Hero(
+                              tag: detail[index],
+                              child: Image.network(detail[index]["ImagePath"],
+                                  fit: BoxFit.cover),
+                            ),
                           ),
                           title: Text(
                             detail[index]["ProductName"],

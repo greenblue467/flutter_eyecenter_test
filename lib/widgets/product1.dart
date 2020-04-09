@@ -103,7 +103,7 @@ class _Product1State extends State<Product1>
                       if (loadingProgress == null) return child;
                       return Center(
                           child: Text(
-                        "讀取中 ⋯",
+                        "讀取中 ⋯",//也可以用fadeInImage或CachedNetworkImage(作用較多，可以針對圖片載入失敗做後續動作，或是loading indicator等效果)
                         style: TextStyle(color: Colors.grey, fontSize: 20.0),
                       ));
                     },

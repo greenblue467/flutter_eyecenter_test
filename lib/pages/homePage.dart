@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   bool firstLaunch = true;
   String spFirstLaunch = "spFirstLaunch";
 
+
   final memberContent = [
     News(),
     Member(),
@@ -65,6 +66,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     loadValues();
     getDeviceID();
+
   }
 
   void getDeviceID() async {
