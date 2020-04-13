@@ -115,6 +115,7 @@ class _Product1State extends State<Product1>
                           index == provide.product1.length - 1 ? 120.0 : 0.0),
                   child: Image.network(
                     provide.product1[index]["BrandImg"],
+                    fit: BoxFit.cover,
                     loadingBuilder: (context, Widget child,
                         ImageChunkEvent loadingProgress) {
                       if (loadingProgress == null) return child;
