@@ -35,6 +35,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool firstLaunch = true;
   String spFirstLaunch = "spFirstLaunch";
+  int currentIndex;
 
   final memberContent = [
     News(),
@@ -66,6 +67,9 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     loadValues();
     getDeviceID();
+    setState(() {
+      currentIndex=Provider.of<Data>(context, listen: false).index;
+    });
   }
 
   void getDeviceID() async {
@@ -363,6 +367,14 @@ class _HomePageState extends State<HomePage> {
             children: [BottomNavigationBar(
                 currentIndex: Provider.of<Data>(context).index,
                 onTap: (index) {
+                  if(provide.verify1 && index == 2){
+                    if(currentIndex==index){
+                      provide.setControlScroll();
+                    }
+                    setState(() {
+                      currentIndex=index;
+                    });
+                  }
                   if (provide.time < 120) {
                     provide.countCancel();
                     provide.setTime();

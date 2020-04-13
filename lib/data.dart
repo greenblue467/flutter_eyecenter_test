@@ -45,6 +45,13 @@ class Data with ChangeNotifier {
   List totalPriceList = [];
   String spTotalPriceList = "spTotalPriceList";
   var pointInfo;
+  ScrollController controlScroll = ScrollController();
+
+  void setControlScroll(){
+    controlScroll.animateTo(0,
+        duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
+  notifyListeners();
+  }
 
   void setHide(val){
     hide=val;
