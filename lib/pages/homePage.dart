@@ -4,6 +4,7 @@ import 'package:eyecentertestapp/classes/menuItem2.dart';
 import 'package:eyecentertestapp/pages/policy.dart';
 import 'package:eyecentertestapp/pages/rules.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 import '../widgets/login.dart';
@@ -35,7 +36,6 @@ class _HomePageState extends State<HomePage> {
   bool firstLaunch = true;
   String spFirstLaunch = "spFirstLaunch";
 
-
   final memberContent = [
     News(),
     Member(),
@@ -66,7 +66,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     loadValues();
     getDeviceID();
-
   }
 
   void getDeviceID() async {
@@ -357,101 +356,114 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: getContents(),
-        bottomNavigationBar: BottomNavigationBar(
-            currentIndex: Provider.of<Data>(context).index,
-            onTap: (index) {
-              if (provide.time < 120) {
-                provide.countCancel();
-                provide.setTime();
-              }
-              int originalIndex = provide.index;
-              if (provide.verify1 && index == 0) {
-                provide.setIndex(originalIndex);
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        child: PointPage(), type: PageTransitionType.downToUp));
+        bottomNavigationBar: AnimatedContainer(
+          duration: Duration(milliseconds: 300),
+          height: provide.hide?0.0:105.0,
+          child: Wrap(
+            children: [BottomNavigationBar(
+                currentIndex: Provider.of<Data>(context).index,
+                onTap: (index) {
+                  if (provide.time < 120) {
+                    provide.countCancel();
+                    provide.setTime();
+                  }
+                  int originalIndex = provide.index;
+                  if (provide.verify1 && index == 0) {
+                    provide.setIndex(originalIndex);
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            child: PointPage(),
+                            type: PageTransitionType.downToUp));
 
-                return;
-              } else if (!provide.verify1 && index == 0 ||
-                  !provide.verify1 && index == 4) {
-                provide.setIndex(1);
-                Alert(
-                  context: context,
-                  title: "貼心小提醒",
-                  desc: "請先登入會員",
-                  closeFunction: () {},
-                  buttons: [
-                    DialogButton(
-                      child: Text(
-                        "取消",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      onPressed: () => Navigator.pop(context),
-                    )
-                  ],
-                ).show();
-                return;
-              }
-              provide.setIndex(index);
-            },
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.attach_money, size: 40.0),
-                  title: Text("使用點數")),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.people, size: 40.0), title: Text("會員中心")),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.list, size: 40.0),
-                  title: Text(
-                    "產品介紹",
-                  )),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.location_on, size: 40.0),
-                  title: Text("門市據點")),
-              BottomNavigationBarItem(
-                  icon: Stack(overflow: Overflow.visible, children: [
-                    Transform(
-                      alignment: Alignment.center,
-                      transform: Matrix4.rotationY(math.pi),
-                      child: Icon(
-                        Icons.local_shipping,
-                        size: 40.0,
-                      ),
-                    ),
-                    provide.cart.isEmpty
-                        ? Text("")
-                        : Positioned(
-                            right: -10.0,
-                            child: Container(
-                              height: 20.0,
-                              width: 20.0,
-                              padding: EdgeInsets.all(2.0),
-                              decoration: BoxDecoration(
-                                color: Colors.redAccent,
-                                borderRadius: BorderRadius.circular(50.0),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  Provider.of<Data>(context)
-                                      .cart
-                                      .length
-                                      .toString(),
-                                  style: TextStyle(
-                                    color: Colors.white,
+                    return;
+                  } else if (!provide.verify1 && index == 0 ||
+                      !provide.verify1 && index == 4) {
+                    provide.setIndex(1);
+                    Alert(
+                      context: context,
+                      title: "貼心小提醒",
+                      desc: "請先登入會員",
+                      closeFunction: () {},
+                      buttons: [
+                        DialogButton(
+                          child: Text(
+                            "取消",
+                            style: TextStyle(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                          onPressed: () => Navigator.pop(context),
+                        )
+                      ],
+                    ).show();
+                    return;
+                  }
+                  provide.setIndex(index);
+                },
+                items: [
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.attach_money, size: 40.0),
+                      title: Text(
+                        "使用點數",
+                      )),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.people, size: 40.0),
+                      title: Text("會員中心")),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.list, size: 40.0),
+                      title: Text(
+                        "產品介紹",
+                      )),
+                  BottomNavigationBarItem(
+                      icon: Icon(Icons.location_on, size: 40.0),
+                      title: Text("門市據點")),
+                  BottomNavigationBarItem(
+                      icon: Stack(overflow: Overflow.visible, children: [
+                        Transform(
+                          alignment: Alignment.center,
+                          transform: Matrix4.rotationY(math.pi),
+                          child: Icon(
+                            Icons.local_shipping,
+                            size: 40.0,
+                          ),
+                        ),
+                        provide.cart.isEmpty
+                            ? Text("")
+                            : Positioned(
+                                right: -10.0,
+                                child: Container(
+                                  height: 20.0,
+                                  width: 20.0,
+                                  padding: EdgeInsets.all(2.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.redAccent,
+                                    borderRadius:
+                                        BorderRadius.circular(50.0),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      Provider.of<Data>(context)
+                                          .cart
+                                          .length
+                                          .toString(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                  ]),
-                  title: Text("配送服務")),
-            ],
-            selectedItemColor:
-                provide.index == 0 ? Colors.white : Colors.lightGreenAccent,
-            unselectedItemColor: Colors.white,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Theme.of(context).primaryColor),
+                      ]),
+                      title: Text("配送服務")),
+                ],
+                selectedItemColor: provide.index == 0
+                    ? Colors.white
+                    : Colors.lightGreenAccent,
+                unselectedItemColor: Colors.white,
+                type: BottomNavigationBarType.fixed,
+                backgroundColor: Theme.of(context).primaryColor),
+          ]),
+        ),
       ),
     );
   }

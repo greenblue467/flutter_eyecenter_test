@@ -13,6 +13,7 @@ import './classes/alert.dart';
 import './classes/navigate.dart';
 
 class Data with ChangeNotifier {
+  bool hide=false;
   bool justLaunch = true;
   int index = 2;
   String deviceID;
@@ -45,6 +46,10 @@ class Data with ChangeNotifier {
   String spTotalPriceList = "spTotalPriceList";
   var pointInfo;
 
+  void setHide(val){
+    hide=val;
+    notifyListeners();
+  }
   void setJustLaunch() {
     justLaunch = false;
     notifyListeners();

@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:eyecentertestapp/classes/warning.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'dart:convert';
@@ -17,6 +18,7 @@ class Product1 extends StatefulWidget {
 class _Product1State extends State<Product1>
     with AutomaticKeepAliveClientMixin {
   bool _loading = false;
+  ScrollController controlScroll = ScrollController();
 
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
@@ -41,6 +43,12 @@ class _Product1State extends State<Product1>
   void initState() {
     super.initState();
     getContent();
+
+    /*if(controlScroll.position.userScrollDirection==ScrollDirection.reverse){
+      print("往下滑");
+    }else{
+      print("往上");
+    }*/
   }
 
   void getContent() async {
@@ -56,6 +64,14 @@ class _Product1State extends State<Product1>
       if (response.statusCode == 200) {
         var jsonResponse = jsonDecode(response.body);
         Provider.of<Data>(context, listen: false).setProduct1(jsonResponse);
+        controlScroll.addListener(() {
+          if (controlScroll.position.userScrollDirection ==
+              ScrollDirection.reverse) {
+            Provider.of<Data>(context,listen: false).setHide(true);
+          } else {
+            Provider.of<Data>(context,listen: false).setHide(false);
+          }
+        });
       } else {
         print(response.statusCode);
       }
@@ -81,6 +97,7 @@ class _Product1State extends State<Product1>
           onRefresh: _onRefresh,
           onLoading: _onLoading,
           child: ListView.builder(
+            controller: controlScroll,
             padding: EdgeInsets.all(0.0),
             itemCount: provide.product1.length,
             itemBuilder: (context, index) {
@@ -103,7 +120,8 @@ class _Product1State extends State<Product1>
                       if (loadingProgress == null) return child;
                       return Center(
                           child: Text(
-                        "讀取中 ⋯",//也可以用fadeInImage或CachedNetworkImage(作用較多，可以針對圖片載入失敗做後續動作，或是loading indicator等效果)
+                        "讀取中 ⋯",
+                        //也可以用fadeInImage或CachedNetworkImage(作用較多，可以針對圖片載入失敗做後續動作，或是loading indicator等效果)
                         style: TextStyle(color: Colors.grey, fontSize: 20.0),
                       ));
                     },
