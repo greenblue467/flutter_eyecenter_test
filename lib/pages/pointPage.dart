@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PointPage extends StatefulWidget {
@@ -10,13 +10,14 @@ class PointPage extends StatefulWidget {
 
 class _PointPageState extends State<PointPage> {
   final Completer<WebViewController> _controller =
-  Completer<WebViewController>();
-  String u="https://flutter.dev/";
+      Completer<WebViewController>();
+  String u = "https://flutter.dev/";
+  bool _loading = false;
 
   @override
   void initState() {
     super.initState();
-   //_launchURL();
+    //_launchURL();
   }
 
   /*Future<void> _launchURL() async {
@@ -41,22 +42,34 @@ class _PointPageState extends State<PointPage> {
         elevation: 0.0,
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       ),
-      body: WebView(
-        initialUrl: "https://flutter.dev/",
-        javascriptMode: JavascriptMode.unrestricted,//for opening to a new url
-        onWebViewCreated: (WebViewController webViewController) {
-          _controller.complete(webViewController);
-        },
-        onPageStarted: (url){
-          if(u!=url){
-            String parameter=url.substring(20);
-            print(parameter);//用此來傳url參數給後端
-          }
-          setState(() {
-            u=url;
-          });
-
-        },
+      body: ModalProgressHUD(
+        inAsyncCall: _loading,
+        color: Colors.white,
+        child: WebView(
+          initialUrl: "https://flutter.dev/",
+          javascriptMode:
+              JavascriptMode.unrestricted, //for opening to a new url
+          onWebViewCreated: (WebViewController webViewController) {
+            _controller.complete(webViewController);
+          },
+          onPageStarted: (url) {
+            setState(() {
+              _loading = true;
+            });
+            if (u != url) {
+              String parameter = url.substring(20);
+              print(parameter); //用此來傳url參數給後端
+            }
+            setState(() {
+              u = url;
+            });
+          },
+          onPageFinished: (_){
+            setState(() {
+              _loading = false;
+            });
+          },
+        ),
       ),
     );
   }
