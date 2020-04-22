@@ -21,7 +21,7 @@ class _FaqState extends State<Faq> {
 
   void getContent() async {
     ApiCalls info = ApiCalls();
-    var content = await info.get(5);
+    var content = await info.get(5,context);
     setState(() {
       _content = content;
       _loading = false;

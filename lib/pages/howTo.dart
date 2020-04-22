@@ -20,7 +20,7 @@ class _HowToState extends State<HowTo> {
 
   void getContent()async{
     ApiCalls info=ApiCalls();
-    var content=await info.get(9);
+    var content=await info.get(9,context);
     setState(() {
       _content=content;
       _loading=false;

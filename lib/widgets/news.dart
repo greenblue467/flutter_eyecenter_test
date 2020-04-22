@@ -21,7 +21,7 @@ class _NewsState extends State<News> {
 
   void getContent() async {
     ApiCalls info = ApiCalls();
-    var content = await info.get(1);
+    var content = await info.get(1,context);
     setState(() {
       _content = content;
       _loading = false;

@@ -18,7 +18,7 @@ class _PolicyState extends State<Policy> {
 
   void getContent()async{
     ApiCalls info=ApiCalls();
-    var content=await info.get(2);
+    var content=await info.get(2,context);
     setState(() {
       _content=content;
       _loading=false;

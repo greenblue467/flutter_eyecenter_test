@@ -20,7 +20,7 @@ class _AboutState extends State<About> {
 
   void getContent() async {
     ApiCalls info = ApiCalls();
-    var content = await info.get(1);
+    var content = await info.get(1,context);
     setState(() {
       _content = content;
       _loading = false;
@@ -42,34 +42,30 @@ class _AboutState extends State<About> {
         ),
         iconTheme: IconThemeData(color: Theme.of(context).primaryColor),
       ),
-      body: ModalProgressHUD(
-        inAsyncCall: _loading,
-        color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(10.0),
-              color: Theme.of(context).primaryColor,
-              child: Text(
-                _loading ? "" : _content[0]["InfoName"],
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontSize: 16.0),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(10.0),
+            color: Theme.of(context).primaryColor,
+            child: Text(
+              _loading ? "" : _content[0]["InfoName"],
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white, fontSize: 16.0),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+              child: ListView(
+                  children: [Html(
+                    data: _loading ? "" : _content[0]["HTML"],
+                    defaultTextStyle: TextStyle(fontSize: 18.0),
+                  ),]
               ),
             ),
-            Expanded(
-              child: Container(
-                padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
-                child: ListView(
-                    children: [Html(
-                      data: _loading ? "" : _content[0]["HTML"],
-                      defaultTextStyle: TextStyle(fontSize: 18.0),
-                    ),]
-                ),
-              ),
-            )
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

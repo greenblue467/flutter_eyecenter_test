@@ -20,7 +20,7 @@ class _ContactState extends State<Contact> {
 
   void getContent() async {
     ApiCalls info = ApiCalls();
-    var content = await info.get(4);
+    var content = await info.get(4,context);
     setState(() {
       _content = content;
       _loading = false;

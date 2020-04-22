@@ -21,7 +21,7 @@ class _RulesState extends State<Rules> {
 
   void getContent() async {
     ApiCalls info = ApiCalls();
-    var content = await info.get(7);
+    var content = await info.get(7,context);
     setState(() {
       _content = content;
       _loading = false;

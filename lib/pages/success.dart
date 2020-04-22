@@ -20,7 +20,7 @@ class _SuccessState extends State<Success> {
 
   void getContent() async {
     ApiCalls info = ApiCalls();
-    var content = await info.get(12);
+    var content = await info.get(12,context);
     setState(() {
       _content = content;
       _loading = false;
