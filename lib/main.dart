@@ -24,4 +24,7 @@ class MyApp extends StatelessWidget {
 4. 推播的badge：鎖定ios platform，利用偵測app是否被打開(in background和killed)並將此boolean(可設定兩個變數，one for background、one for killed)傳至後端來判斷badge數字是否需累加。in background再resume可以用lifecycle去偵測(widgetBindingObserver)
 5. 推播方式可以選擇用api從後端推，彈性比較大，不要從firebase console推
 6. MVM model，將data資料與UI分開，UI只是單純呈現view model給予的資訊。利用provider package來做管理，但若是像動畫類的只與UI有關(一般UI改變是因應裡面的資訊內容改變而變化，比較不會單純只改變例如長寬等UI，但是內容都一樣)，可放在local state，需要時再以constructor的方式pass
+7. 設定若沒網路的情況(ex:出現某些訊息instead of running circularProcessIndicator。這邊用enum class蠻好用的)
+8. be careful with ios launch img
+
 */
