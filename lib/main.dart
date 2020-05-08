@@ -26,5 +26,6 @@ class MyApp extends StatelessWidget {
 6. MVM model，將data資料與UI分開，UI只是單純呈現view model給予的資訊。利用provider package來做管理，但若是像動畫類的只與UI有關(一般UI改變是因應裡面的資訊內容改變而變化，比較不會單純只改變例如長寬等UI，但是內容都一樣)，可放在local state，需要時再以constructor的方式pass
 7. 設定若沒網路的情況(ex:出現某些訊息instead of running circularProcessIndicator。這邊用enum class蠻好用的)
 8. be careful with ios launch img
+* android release: 設定keystore新密碼打法 /Applications/Android\ Studio.app/Contents/jre/jdk/Contents/Home/bin/keytool -storepasswd -新密碼 -keystore key.jks(key.jks為這個keystore創建時設的jks檔名)。若改了keystore密碼，key alias密碼也要跟著改成一樣/Applications/Android\ Studio.app/Contents/jre/jdk/Contents/Home/bin/keytool -keypasswd -alias key -new 新密碼 -keystore key.jks。查詢keystore打法為/Applications/Android\ Studio.app/Contents/jre/jdk/Contents/Home/bin/keytool -list -v -keystore key.jks
 
 */
